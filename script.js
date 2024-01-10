@@ -21,4 +21,15 @@ window.addEventListener("resize", () => {
 window.addEventListener("load", () => {
 	updateCanvasSize();
 	updateCanvas();
+	setInterval(() => addEmail("Test!", "me"), 5000);
 });
+
+const emailTable = document.getElementById("emailtable");
+
+function addEmail(subject, from) {
+	const now = new Date();
+	const row = emailTable.insertRow();
+	row.insertCell().textContent = subject;
+	row.insertCell().textContent = from;
+	row.insertCell().textContent = `${now.getHours()}:${now.getMinutes()}`;
+}
