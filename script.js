@@ -14,6 +14,44 @@ function updateCanvas() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+let dragwin = null;
+let dragwinOrigin = null;
+let dragwinOriginalPos = null;
+
+function updateWindowDrag(event) {
+	const x = dragwinOriginalPos[0] + event.clientX - dragwinOrigin[0];
+	const y = dragwinOriginalPos[1] + event.clientY - dragwinOrigin[1];
+	dragwin.style.left = `${x}px`;
+	dragwin.style.top = `${y}px`;
+}
+
+for (const win of document.getElementsByClassName("window")) {
+	win.addEventListener("pointerdown", (event) => {
+		dragwin = win;
+		dragwinOrigin = [event.clientX, event.clientY];
+		const style = getComputedStyle(win);
+		const x = parseInt(style.left.slice(0, -2), 10);
+		const y = parseInt(style.top.slice(0, -2), 10);
+		dragwinOriginalPos = [x, y];
+	});
+}
+
+window.addEventListener("pointerup", (event) => {
+	if (dragwin === null) {
+		return;
+	}
+	updateWindowDrag(event);
+	dragwin = null;
+	dragwinOrigin = null;
+	dragwinOriginalPos = null;
+});
+window.addEventListener("pointermove", (event) => {
+	if (dragwin === null) {
+		return;
+	}
+	updateWindowDrag(event);
+});
+
 window.addEventListener("resize", () => {
 	updateCanvasSize();
 	updateCanvas();
