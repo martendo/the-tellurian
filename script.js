@@ -11,7 +11,7 @@ function updateCanvasSize() {
 
 function updateCanvas() {
 	ctx.fillStyle = "#ff0000";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(0, 0, 50, 50);
 }
 
 let dragwin = null;
@@ -25,8 +25,9 @@ function updateWindowDrag(event) {
 	dragwin.style.top = `${y}px`;
 }
 
-for (const win of document.getElementsByClassName("window")) {
-	win.addEventListener("pointerdown", (event) => {
+for (const titlebar of document.getElementsByClassName("windowtitle")) {
+	titlebar.addEventListener("pointerdown", (event) => {
+		const win = titlebar.parentElement;
 		dragwin = win;
 		dragwinOrigin = [event.clientX, event.clientY];
 		const style = getComputedStyle(win);

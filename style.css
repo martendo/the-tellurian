@@ -7,14 +7,29 @@
 html, body {
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
+}
+
+#canvas {
+	position: absolute;
+	pointer-events: none;
+	z-index: 1;
 }
 
 #screen {
 	position: absolute;
-	top: 100px;
-	left: 100px;
-	z-index: 1;
-	background-color: azure;
+	margin: 75px;
+	width: calc(100% - 150px);
+	height: calc(100% - 150px);
+	z-index: 0;
+	background-color: #8080c0;
+	border: 8px solid #000000;
+}
+
+#screencontainer {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
 }
 
 .window {
@@ -23,6 +38,14 @@ html, body {
 	background-color: #ffffff;
 	position: relative;
 	overflow: hidden;
+}
+
+.windowtitle {
+	user-select: none;
+	background-color: #202040;
+	color: #ffffff;
+	cursor: move;
+	padding: 0.25em;
 }
 
 #emailwindow {
