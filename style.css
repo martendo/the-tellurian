@@ -37,7 +37,8 @@ html, body {
 	border-radius: 5px;
 	background-color: #ffffff;
 	position: relative;
-	overflow: hidden;
+	width: 400px;
+	height: 300px;
 }
 
 .windowtitle {
@@ -46,11 +47,28 @@ html, body {
 	color: #ffffff;
 	cursor: move;
 	padding: 0.25em;
+	display: grid;
+	grid-template-rows: auto;
+	grid-template-columns: minmax(0, 1fr) min-content;
 }
 
-#emailwindow {
-	width: 400px;
-	height: 300px;
+.windowclose {
+	background-color: #ff0000;
+	padding: 2px;
+	width: 1.5em;
+	height: 1.5em;
+	vertical-align: middle;
+	text-align: center;
+	border-radius: 100%;
+	border: none;
+}
+
+.windowclose:hover {
+	background-color: #d00000;
+}
+
+.windowclose:active {
+	background-color: #a00000;
 }
 
 #emailtable {
@@ -60,4 +78,16 @@ html, body {
 
 #emailtable td {
 	border: 1px solid #808080;
+}
+
+#emailtable tr:hover {
+	background-color: #e8e8e8;
+}
+
+#emailtable tr:active {
+	background-color: #d0d0d0;
+}
+
+#messagewindow {
+	display: none;
 }

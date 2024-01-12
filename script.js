@@ -17,6 +17,7 @@ function updateCanvas() {
 let dragwin = null;
 let dragwinOrigin = null;
 let dragwinOriginalPos = null;
+let topZIndex = 2;
 
 function updateWindowDrag(event) {
 	const x = dragwinOriginalPos[0] + event.clientX - dragwinOrigin[0];
@@ -34,6 +35,14 @@ for (const titlebar of document.getElementsByClassName("windowtitle")) {
 		const x = parseInt(style.left.slice(0, -2), 10);
 		const y = parseInt(style.top.slice(0, -2), 10);
 		dragwinOriginalPos = [x, y];
+		win.style.zIndex = topZIndex++;
+	});
+}
+
+for (const winclose of document.getElementsByClassName("windowclose")) {
+	const win = winclose.parentElement.parentElement;
+	winclose.addEventListener("click", () => {
+		win.style.display = "none";
 	});
 }
 
@@ -60,15 +69,25 @@ window.addEventListener("resize", () => {
 window.addEventListener("load", () => {
 	updateCanvasSize();
 	updateCanvas();
-	setInterval(() => addEmail("Test!", "me"), 5000);
+	setInterval(() => addEmail("Test!", "me", `${Math.random()}`), 5000);
 });
 
 const emailTable = document.getElementById("emailtable");
 
-function addEmail(subject, from) {
+function openEmail(message) {
+	document.getElementById("messagecontent").textContent = message;
+	const win = document.getElementById("messagewindow");
+	win.style.zIndex = topZIndex++;
+	win.style.display = "block";
+}
+
+function addEmail(subject, from, message) {
 	const now = new Date();
 	const row = emailTable.insertRow();
 	row.insertCell().textContent = subject;
 	row.insertCell().textContent = from;
 	row.insertCell().textContent = `${now.getHours()}:${now.getMinutes()}`;
+	row.addEventListener("click", () => {
+		openEmail(message);
+	});
 }
