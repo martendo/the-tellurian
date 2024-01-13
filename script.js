@@ -17,7 +17,7 @@ function updateCanvas() {
 let dragwin = null;
 let dragwinOrigin = null;
 let dragwinOriginalPos = null;
-let topZIndex = 2;
+let topZIndex = 10;
 
 function updateWindowDrag(event) {
 	const x = dragwinOriginalPos[0] + event.clientX - dragwinOrigin[0];
@@ -72,6 +72,25 @@ window.addEventListener("load", () => {
 	setInterval(() => addEmail("Test!", "me", `${Math.random()}`), 5000);
 });
 
+let timeHours = 0;
+let timeMinutes = 0;
+const clock = document.getElementById("clock");
+
+function getTimeString() {
+	const hoursString = (timeHours < 10 ? "0" : "") + timeHours.toString();
+	const minutesString = (timeMinutes < 10 ? "0" : "") + timeMinutes.toString();
+	return `${hoursString}:${minutesString}`;
+}
+
+setInterval(() => {
+	timeMinutes++;
+	if (timeMinutes >= 60) {
+		timeMinutes = 0;
+		timeHours++;
+	}
+	clock.textContent = getTimeString();
+}, 250/3);
+
 const emailTable = document.getElementById("emailtable");
 
 function openEmail(message) {
@@ -86,7 +105,7 @@ function addEmail(subject, from, message) {
 	const row = emailTable.insertRow();
 	row.insertCell().textContent = subject;
 	row.insertCell().textContent = from;
-	row.insertCell().textContent = `${now.getHours()}:${now.getMinutes()}`;
+	row.insertCell().textContent = getTimeString();
 	row.addEventListener("click", () => {
 		openEmail(message);
 	});

@@ -16,6 +16,21 @@ html, body {
 	z-index: 1;
 }
 
+#clock {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	pointer-events: none;
+	z-index: 2;
+	background-color: #200000;
+	color: #ff0000;
+	border: 1px solid #ff0000;
+	border-radius: 0.25em;
+	padding: 0.75em;
+	font-family: monospace;
+	font-size: 32px;
+}
+
 #screen {
 	position: absolute;
 	margin: 75px;
