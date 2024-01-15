@@ -250,7 +250,7 @@ const CHECKPOINTS = {
 				"Welcome!",
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
-				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to try some of your coffee.</p>",
+				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This is one of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to try some of your coffee.</p>",
 				0,
 				[[false, "Got it!", () => CHECKPOINTS.pos1()]]
 			);
