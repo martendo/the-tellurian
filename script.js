@@ -2,7 +2,9 @@
 
 const coffeeCanvas = document.getElementById("coffeecanvas");
 const coffeeCtx = coffeeCanvas.getContext("2d");
+const energyBar = document.getElementById("energybar");
 
+let energyLevel = 1;
 let coffeeLevel = 1;
 
 function updateCanvas() {
@@ -40,11 +42,17 @@ function updateCanvas() {
 	coffeeCtx.stroke(cupPath);
 }
 
+function updateEnergyBar() {
+	energyBar.style.width = `calc(${energyLevel} * 50vw)`;
+}
+
 coffeeCanvas.addEventListener("click", () => {
 	if (coffeeLevel > 0) {
 		coffeeLevel -= 0.1;
+		energyLevel = Math.min(energyLevel + 0.5, 1);
 	}
 	updateCanvas();
+	updateEnergyBar();
 });
 
 const screen = document.getElementById("screen");
@@ -114,6 +122,14 @@ window.addEventListener("load", () => {
 	CHECKPOINTS.intro();
 });
 
+function gameOver() {
+	clearInterval(clockInterval);
+	if (interval !== null) {
+		clearInterval(interval);
+	}
+	document.getElementById("gameoverscreen").style.display = "initial";
+}
+
 let timeHours = 0;
 let timeMinutes = 0;
 const clock = document.getElementById("clock");
@@ -131,6 +147,12 @@ const clockInterval = setInterval(() => {
 		timeHours++;
 	}
 	clock.textContent = getTimeString();
+
+	energyLevel -= 0.0025;
+	if (energyLevel <= 0) {
+		gameOver();
+	}
+	updateEnergyBar();
 }, 250/3);
 
 const emailTable = document.getElementById("emailtable");
@@ -219,9 +241,9 @@ const CHECKPOINTS = {
 				"Welcome!",
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
-				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to refill your cup of coffee.</p>",
+				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to try some of your coffee.</p>",
 				0,
-				[[false, "I got coffee!", () => CHECKPOINTS.pos1()]]
+				[[false, "Got it!", () => CHECKPOINTS.pos1()]]
 			);
 		}, 3000);
 	},

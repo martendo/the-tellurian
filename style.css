@@ -18,14 +18,31 @@ p {
 	position: absolute;
 	cursor: grab;
 	z-index: 1;
-	bottom: 1em;
-	right: 1em;
+	bottom: 22px;
+	right: 22px;
+}
+
+#energybar {
+	position: absolute;
+	top: 32px;
+	left: 32px;
+	pointer-events: none;
+	z-index: 1;
+	padding: 1em 0;
+	background-color: #ff00ff;
+	overflow: visible;
+	border: 3px solid #b000b0;
+	border-radius: 8px;
+}
+
+#energybar > span {
+	margin: 1em;
 }
 
 #clock {
 	position: absolute;
-	top: 1em;
-	right: 1em;
+	top: 32px;
+	right: 32px;
 	pointer-events: none;
 	z-index: 2;
 	background-color: #200000;
@@ -203,4 +220,15 @@ input {
 #mappin {
 	position: absolute;
 	pointer-events: none;
+}
+
+#gameoverscreen {
+	position: absolute;
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	padding: 3em;
+	background-color: #ffffff;
+	text-align: center;
+	display: none;
 }
