@@ -171,10 +171,12 @@ function openEmail(fromDetails, message, responseType, responses) {
 function addEmail(subject, from, fromDetails, message, responseType, responses) {
 	const now = new Date();
 	const row = emailTable.insertRow();
+	row.className = "newemail";
 	row.insertCell().textContent = subject;
 	row.insertCell().textContent = from;
 	row.insertCell().textContent = getTimeString();
 	row.addEventListener("click", () => {
+		row.className = "";
 		openEmail(`From ${from}, ${fromDetails}`, message, responseType, responses);
 	});
 }

@@ -123,6 +123,18 @@ p {
 	background-color: #d0d0d0;
 }
 
+#emailtable .newemail {
+	background-color: #ffffa0;
+}
+
+#emailtable .newemail:hover {
+	background-color: #f0f090;
+}
+
+#emailtable .newemail:active {
+	background-color: #e0e080;
+}
+
 #messagewindow {
 	display: none;
 }
