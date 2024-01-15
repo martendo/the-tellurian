@@ -53,7 +53,7 @@ html, body {
 	background-color: #ffffff;
 	position: relative;
 	width: 400px;
-	height: 300px;
+	min-height: 300px;
 	display: grid;
 	grid-template-rows: min-content minmax(0, 1fr);
 	grid-template-columns: auto;
@@ -112,4 +112,41 @@ html, body {
 
 #messagewindow {
 	display: none;
+}
+
+#messagefromdetails {
+	padding: 1em;
+	background-color: #a0d0ff;
+	border-bottom: 1px solid #000000;
+	font-size: 80%;
+}
+
+#messagecontent {
+	padding: 1em;
+	white-space: pre-line;
+}
+
+#responsecontainer {
+	padding: 1em;
+	padding-top: 0;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+}
+
+#responsecontainer button {
+	padding: 0.5em 1em;
+	margin: 0.5em;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+input {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+#responsecontainer table {
+	width: 100%;
+	text-align: center;
 }
