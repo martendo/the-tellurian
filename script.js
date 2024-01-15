@@ -14,14 +14,26 @@ function updateCanvas() {
 	ctx.fillRect(0, 0, 50, 50);
 }
 
+const screen = document.getElementById("screen");
 let dragwin = null;
 let dragwinOrigin = null;
 let dragwinOriginalPos = null;
 let topZIndex = 10;
 
 function updateWindowDrag(event) {
-	const x = dragwinOriginalPos[0] + event.clientX - dragwinOrigin[0];
-	const y = dragwinOriginalPos[1] + event.clientY - dragwinOrigin[1];
+	let x = dragwinOriginalPos[0] + event.clientX - dragwinOrigin[0];
+	let y = dragwinOriginalPos[1] + event.clientY - dragwinOrigin[1];
+	const winRect = dragwin.getBoundingClientRect();
+	if (x < 0) {
+		x = 0;
+	} else if (x > screen.clientWidth - winRect.width) {
+		x = screen.clientWidth - winRect.width;
+	}
+	if (y < 0) {
+		y = 0;
+	} else if (y > screen.clientHeight - winRect.height) {
+		y = screen.clientHeight - winRect.height;
+	}
 	dragwin.style.left = `${x}px`;
 	dragwin.style.top = `${y}px`;
 }
