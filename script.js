@@ -133,6 +133,7 @@ function gameOver() {
 let timeHours = 0;
 let timeMinutes = 0;
 const clock = document.getElementById("clock");
+const pay = document.getElementById("pay");
 
 function getTimeString() {
 	const hoursString = (timeHours < 10 ? "0" : "") + timeHours.toString();
@@ -147,6 +148,8 @@ const clockInterval = setInterval(() => {
 		timeHours++;
 	}
 	clock.textContent = getTimeString();
+	const money = 32.50 * (timeHours + timeMinutes / 60);
+	pay.textContent = `\$${money.toFixed(2)}`;
 
 	energyLevel -= 0.0025;
 	if (energyLevel <= 0) {

@@ -50,18 +50,32 @@ p {
 	border: 3px solid #d0b0c0;
 }
 
-#clock {
+#timeinfo {
 	position: absolute;
 	top: 32px;
 	right: 32px;
 	pointer-events: none;
 	z-index: 2;
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 1em;
+}
+
+#clock {
 	background-color: #200000;
 	color: #ff0000;
 	border: 1px solid #ff0000;
 	border-radius: 0.25em;
 	padding: 0.75em;
 	font-family: monospace;
+	font-size: 32px;
+}
+
+#pay {
+	background-color: #202020;
+	color: #c0ffc0;
+	border-radius: 0.25em;
+	padding: 0.75em;
 	font-size: 32px;
 }
 
