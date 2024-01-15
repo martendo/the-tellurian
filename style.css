@@ -10,6 +10,10 @@ html, body {
 	overflow: hidden;
 }
 
+p {
+	margin: 1em 0;
+}
+
 #canvas {
 	position: absolute;
 	pointer-events: none;
@@ -125,7 +129,7 @@ html, body {
 }
 
 #messagecontent {
-	padding: 1em;
+	padding: 0 1em;
 	white-space: pre-line;
 }
 

@@ -94,7 +94,7 @@ function getTimeString() {
 	return `${hoursString}:${minutesString}`;
 }
 
-setInterval(() => {
+const clockInterval = setInterval(() => {
 	timeMinutes++;
 	if (timeMinutes >= 60) {
 		timeMinutes = 0;
@@ -110,11 +110,12 @@ const responseContainer = document.getElementById("responsecontainer");
 
 function openEmail(fromDetails, message, responseType, responses) {
 	messageFromDetails.textContent = fromDetails;
-	messageContent.textContent = message;
+	messageContent.innerHTML = message;
 	while (responseContainer.firstChild) {
 		responseContainer.removeChild(responseContainer.firstChild);
 	}
 	if (responseType === 0) {
+		// Button responses
 		for (const response of responses) {
 			const responseButton = document.createElement("button");
 			responseButton.textContent = response[0];
@@ -122,6 +123,7 @@ function openEmail(fromDetails, message, responseType, responses) {
 			responseContainer.appendChild(responseButton);
 		}
 	} else {
+		// Input responses
 		const table = document.createElement("table");
 		const inputs = [];
 		for (let i = 1; i < responses.length; i++) {
@@ -172,7 +174,7 @@ const CHECKPOINTS = {
 				"Welcome!",
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
-				"Hello!\n\nIt is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.\n\nCommunication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.\n\nThank you for taking on this huge challenge. By the way, you might want to refill your cup of coffee.",
+				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to refill your cup of coffee.</p>",
 				0,
 				[["I got coffee!", () => CHECKPOINTS.pos1()]]
 			);
@@ -184,7 +186,7 @@ const CHECKPOINTS = {
 				"Let's get started",
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
-				"Hi again.\n\nCoffee's great. That fuel will be important. You simply can't work without that energy.\n\nEmergency funding from Congress basically means we can pay you for all the overtime in the world. But don't overwork yourself. You'll need rest eventually. Once you've done enough for the day, clock out. Take a break. You'll need it.\n\nMedia wants the latest position of Watney. Do you have it?",
+				"<p>Hi again.</p><p>Coffee's great. That fuel will be important. You simply can't work without that energy.</p><p>Emergency funding from Congress basically means we can pay you for all the overtime in the world. But don't overwork yourself. You'll need rest eventually. Once you've done enough for the day, clock out. Take a break. You'll need it.</p><p>Control wants the latest position of Watney. Do you have it?</p>",
 				1,
 				[
 					["pos1pass", "pos1fail"],
@@ -198,7 +200,16 @@ const CHECKPOINTS = {
 		console.log("yay");
 	},
 	"pos1fail": () => {
-		console.log("boo");
+		setTimeout(() => {
+			addEmail(
+				"Termination",
+				"Venkat Kapoor",
+				"Director of Mars Operations at NASA",
+				"<p>Hey there,</p><p>I got word that the coordinates you found ended up totally screwing over Control. You must've been way off. They, uh, lost communication with the Hab. They're gonna need a week or two to get it back.</p><p>I'm sorry, but I just can't tolerate that kind of mistake.</p><p style=\"color:#ff0000\">You're fired.</p>",
+				0,
+				[["Try again?", () => location.reload()]]
+			);
+		}, 2000);
 	},
 };
 
