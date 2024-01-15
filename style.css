@@ -14,10 +14,12 @@ p {
 	margin: 1em 0;
 }
 
-#canvas {
+#coffeecanvas {
 	position: absolute;
-	pointer-events: none;
+	cursor: grab;
 	z-index: 1;
+	bottom: 1em;
+	right: 1em;
 }
 
 #clock {
@@ -37,9 +39,9 @@ p {
 
 #screen {
 	position: absolute;
-	margin: 75px;
-	width: calc(100% - 150px);
-	height: calc(100% - 150px);
+	margin: 150px;
+	width: calc(100% - 300px);
+	height: calc(100% - 300px);
 	z-index: 0;
 	background-color: #8080c0;
 	border: 8px solid #000000;

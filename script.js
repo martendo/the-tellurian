@@ -1,18 +1,51 @@
 "use strict";
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const coffeeCanvas = document.getElementById("coffeecanvas");
+const coffeeCtx = coffeeCanvas.getContext("2d");
 
-function updateCanvasSize() {
-	const rect = document.documentElement.getBoundingClientRect();
-	canvas.width = rect.width;
-	canvas.height = rect.height;
-}
+let coffeeLevel = 1;
 
 function updateCanvas() {
-	ctx.fillStyle = "#ff0000";
-	ctx.fillRect(0, 0, 50, 50);
+	const cupPath = new Path2D();
+	cupPath.ellipse(110, 60, 100, 50, 0, Math.PI, 0);
+	cupPath.lineTo(185, 385);
+	cupPath.ellipse(110, 385, 75, 25, 0, 0, Math.PI);
+	cupPath.lineTo(10, 60);
+
+	// Coffee
+	coffeeCtx.save();
+	coffeeCtx.clip(cupPath);
+	coffeeCtx.fillStyle = "#905000";
+	coffeeCtx.fillRect(0, 0, 220, 420);
+	coffeeCtx.restore();
+
+	// Cup
+	coffeeCtx.save();
+	const emptyRegion = new Path2D();
+	emptyRegion.rect(0, 0, 220, (1 - coffeeLevel) * 400 + 10);
+	coffeeCtx.clip(cupPath);
+	coffeeCtx.clip(emptyRegion);
+
+	coffeeCtx.fillStyle = "#e0e0e0";
+	coffeeCtx.fillRect(0, 0, 220, 420);
+
+	coffeeCtx.fillStyle = "#f0f0f0";
+	coffeeCtx.beginPath();
+	coffeeCtx.ellipse(110, 60, 100, 50, 0, 0, 2 * Math.PI);
+	coffeeCtx.fill();
+	coffeeCtx.restore();
+
+	coffeeCtx.strokeStyle = "#404040";
+	coffeeCtx.lineWidth = 3;
+	coffeeCtx.stroke(cupPath);
 }
+
+coffeeCanvas.addEventListener("click", () => {
+	if (coffeeLevel > 0) {
+		coffeeLevel -= 0.1;
+	}
+	updateCanvas();
+});
 
 const screen = document.getElementById("screen");
 let dragwin = null;
@@ -74,12 +107,9 @@ window.addEventListener("pointermove", (event) => {
 	updateWindowDrag(event);
 });
 
-window.addEventListener("resize", () => {
-	updateCanvasSize();
-	updateCanvas();
-});
 window.addEventListener("load", () => {
-	updateCanvasSize();
+	coffeeCanvas.width = 220;
+	coffeeCanvas.height = 420;
 	updateCanvas();
 	CHECKPOINTS.intro();
 });
