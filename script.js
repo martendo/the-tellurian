@@ -141,6 +141,10 @@ function getTimeString() {
 	return `${hoursString}:${minutesString}`;
 }
 
+function getPay() {
+	return 32.50 * (timeHours + timeMinutes / 60);
+}
+
 const clockInterval = setInterval(() => {
 	timeMinutes++;
 	if (timeMinutes >= 60) {
@@ -148,7 +152,7 @@ const clockInterval = setInterval(() => {
 		timeHours++;
 	}
 	clock.textContent = getTimeString();
-	const money = 32.50 * (timeHours + timeMinutes / 60);
+	const money = getPay();
 	pay.textContent = `\$${money.toFixed(2)}`;
 
 	energyLevel -= 0.0025;
@@ -184,11 +188,18 @@ function openEmail(fromDetails, message, responseType, responses) {
 			}
 			responseContainer.appendChild(responseButton);
 		}
-		if (responseType === -1) {
+		if (responseType < 0) {
 			clearInterval(clockInterval);
 			if (interval !== null) {
 				clearInterval(interval);
 			}
+		}
+		if (responseType === -2) {
+			const result = document.createElement("p");
+			const money = getPay();
+			result.textContent = `You made \$${money.toFixed(2)}. You drank ${((1 - coffeeLevel) * 100).toFixed(0)}% of your coffee. Score: ${(coffeeLevel * 100 + 650 - money).toFixed(0)}`;
+			result.style.color = "#ff0000";
+			responseContainer.appendChild(result);
 		}
 	} else {
 		// Input responses
@@ -352,7 +363,20 @@ const CHECKPOINTS = {
 		}, 12000);
 	},
 	"areapass": () => {
-		console.log("yay");
+		setTimeout(() => {
+			addEmail(
+				"Re: Rover calculations",
+				"Rob Bennet",
+				"mechanical design",
+				"<p>Awesome, thanks.</p><p>Can I actually get the version code too? Just the 3 digits starting five before the end of its manufacture code.</p>",
+				1,
+				[
+					false,
+					["codepass", "areafail"],
+					["Version code", (res) => res === "076"],
+				]
+			);
+		}, 4000);
 	},
 	"areafail": () => {
 		setTimeout(() => {
@@ -363,6 +387,18 @@ const CHECKPOINTS = {
 				"<p>Hey there,</p><p>I got word that our new rover just got destroyed in an assembly accident. They found out that they had some incorrect measurements. It's going to be another week or two at least to get up and going again.</p><p>I'm sorry, but I just can't tolerate that kind of mistake.</p><p style=\"color:#ff0000\">You're fired.</p>",
 				-1,
 				[[false, "Try again?", () => location.reload()]]
+			);
+		}, 2000);
+	},
+	"codepass": () => {
+		setTimeout(() => {
+			addEmail(
+				"Thanks",
+				"Venkat Kapoor",
+				"Director of Mars Operations at NASA",
+				"<p>Thanks for your hard work.</p><p>That's all I got for today.</p>",
+				-2,
+				[[false, "That's it?", () => location.reload()]]
 			);
 		}, 2000);
 	},
