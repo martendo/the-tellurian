@@ -188,7 +188,5 @@ input {
 
 #mappin {
 	position: absolute;
-	top: 70px;
-	left: 100px;
 	pointer-events: none;
 }

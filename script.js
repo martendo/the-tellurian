@@ -179,6 +179,7 @@ function addEmail(subject, from, fromDetails, message, responseType, responses) 
 	});
 }
 
+let interval = null;
 const CHECKPOINTS = {
 	"intro": () => {
 		setTimeout(() => {
@@ -203,14 +204,43 @@ const CHECKPOINTS = {
 				[
 					false,
 					["pos1pass", "pos1fail"],
-					["Latitude", (res) => Math.abs(parseFloat(res) - WATNEY_LAT_1) < 1],
-					["Longitude", (res) => Math.abs(parseFloat(res) - WATNEY_LONG_1) < 1],
+					["Latitude", (res) => Math.abs(parseFloat(res) - pinLat) < 1],
+					["Longitude", (res) => Math.abs(parseFloat(res) - pinLong) < 1],
 				]
 			);
 		}, 1000);
 	},
 	"pos1pass": () => {
-		console.log("yay");
+		function move() {
+			let dLong = (Math.random() - 0.5) * 5;
+			if (pinLong + dLong < MAP_OFFSET_X || pinLong + dLong > MAP_OFFSET_X + MAP_WIDTH) {
+				dLong = -dLong;
+			}
+			pinLong += dLong;
+			let dLat = (Math.random() - 0.5) * 5;
+			if (pinLat + dLat > MAP_OFFSET_Y || pinLat + dLat < MAP_OFFSET_Y + MAP_HEIGHT) {
+				dLat = -dLat;
+			}
+			pinLat += dLat;
+			updateMapPin();
+		}
+		interval = setInterval(() => move(), 7000);
+		move();
+		setTimeout(() => {
+			addEmail(
+				"Update?",
+				"Stacy Narn",
+				"trajectory calculations at Control",
+				"<p>Hi,</p><p>We think Watney might be on the move.</p><p>Could you update us with his latest position?</p>",
+				1,
+				[
+					false,
+					["pos2pass", "pos1fail"],
+					["Latitude", (res) => Math.abs(parseFloat(res) - pinLat) < 1],
+					["Longitude", (res) => Math.abs(parseFloat(res) - pinLong) < 1],
+				]
+			);
+		}, 3000);
 	},
 	"pos1fail": () => {
 		setTimeout(() => {
@@ -224,6 +254,13 @@ const CHECKPOINTS = {
 			);
 		}, 2000);
 	},
+	"pos2pass": () => {
+		if (interval !== null) {
+			clearInterval(interval);
+			interval = null;
+		}
+		console.log("yay");
+	},
 };
 
 const MAP_OFFSET_X = -28.3;
@@ -231,13 +268,25 @@ const MAP_OFFSET_Y = 31.9;
 const MAP_WIDTH = 22.9 - MAP_OFFSET_X;
 const MAP_HEIGHT = -7.4 - MAP_OFFSET_Y;
 
-const WATNEY_LAT_1 = 21.367;
-const WATNEY_LONG_1 = -14.149;
-
+const map = document.getElementById("map");
 const mapCursorPosSpan = document.getElementById("mapcursorpos");
+const pin = document.getElementById("mappin");
 
-document.getElementById("map").addEventListener("pointermove", (event) => {
-	const mapRect = event.currentTarget.getBoundingClientRect();
+let pinLat = 21.367;
+let pinLong = -14.149;
+
+function updateMapPin() {
+	const mapRect = map.getBoundingClientRect();
+	const x = (pinLong - MAP_OFFSET_X) / MAP_WIDTH * mapRect.width - 7;
+	const y = (pinLat - MAP_OFFSET_Y) / MAP_HEIGHT * mapRect.height - 7;
+	pin.style.left = `${x}px`;
+	pin.style.top = `${y}px`;
+}
+
+updateMapPin();
+
+map.addEventListener("pointermove", (event) => {
+	const mapRect = map.getBoundingClientRect();
 	const long = (event.clientX - mapRect.left) / mapRect.width * MAP_WIDTH + MAP_OFFSET_X;
 	const lat = (event.clientY - mapRect.top) / mapRect.height * MAP_HEIGHT + MAP_OFFSET_Y;
 	mapCursorPosSpan.textContent = `${lat.toFixed(3)}, ${long.toFixed(3)}`;
