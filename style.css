@@ -62,6 +62,7 @@ html, body {
 
 .windowcontent {
 	overflow: auto;
+	position: relative;
 }
 
 .windowtitle {
@@ -156,11 +157,27 @@ input {
 	right: 0;
 }
 
-#mapwindow .windowcontent {
-	overflow: hidden;
+#map {
+	display: block;
+	width: 100%;
+	cursor: crosshair;
 }
 
-#map {
-	width: 100%;
-	height: 100%;
+#mapcursorpos {
+	font-size: 75%;
+	color: #ffffff;
+	background-color: #000000;
+	padding: 0.5em;
+	margin: 0.5em;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+#mappin {
+	position: absolute;
+	top: 70px;
+	left: 100px;
+	pointer-events: none;
 }

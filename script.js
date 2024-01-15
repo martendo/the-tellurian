@@ -164,3 +164,17 @@ function addEmail(subject, from, fromDetails, message, responseType, responses) 
 		openEmail(`From ${from}, ${fromDetails}`, message, responseType, responses);
 	});
 }
+
+const MAP_OFFSET_X = -28.3;
+const MAP_OFFSET_Y = 31.9;
+const MAP_WIDTH = 22.9 - MAP_OFFSET_X;
+const MAP_HEIGHT = -7.4 - MAP_OFFSET_Y;
+
+const mapCursorPosSpan = document.getElementById("mapcursorpos");
+
+document.getElementById("map").addEventListener("pointermove", (event) => {
+	const mapRect = event.currentTarget.getBoundingClientRect();
+	const x = (event.clientX - mapRect.left) / mapRect.width * MAP_WIDTH + MAP_OFFSET_X;
+	const y = (event.clientY - mapRect.top) / mapRect.height * MAP_HEIGHT + MAP_OFFSET_Y;
+	mapCursorPosSpan.textContent = `${x.toFixed(3)}, ${y.toFixed(3)}`;
+});
