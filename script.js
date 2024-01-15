@@ -166,7 +166,7 @@ function openEmail(fromDetails, message, responseType, responses) {
 	while (responseContainer.firstChild) {
 		responseContainer.removeChild(responseContainer.firstChild);
 	}
-	if (responseType === 0) {
+	if (responseType !== 1) {
 		// Button responses
 		for (const response of responses) {
 			const responseButton = document.createElement("button");
@@ -180,6 +180,12 @@ function openEmail(fromDetails, message, responseType, responses) {
 				});
 			}
 			responseContainer.appendChild(responseButton);
+		}
+		if (responseType === -1) {
+			clearInterval(clockInterval);
+			if (interval !== null) {
+				clearInterval(interval);
+			}
 		}
 	} else {
 		// Input responses
@@ -253,7 +259,7 @@ const CHECKPOINTS = {
 				"Let's get started",
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
-				"<p>Hi again.</p><p>Coffee's great. That fuel will be important. You simply can't work without that energy.</p><p>Emergency funding from Congress basically means we can pay you for all the overtime in the world. But don't overwork yourself. You'll need rest eventually. Once you've done enough for the day, clock out. Take a break. You'll need it.</p><p>Control wants the latest position of Watney. Do you have it?</p>",
+				"<p>Hi again.</p><p>Coffee's great. That fuel will be important. You simply can't work without that energy.</p><p>Emergency funding from Congress basically means we can pay you for all the overtime in the world. But don't overwork yourself. You'll need rest eventually. Try to finish all of your work fast so you can catch a break later. You'll need it.</p><p>Control wants the latest position of Watney. Do you have it?</p>",
 				1,
 				[
 					false,
@@ -303,7 +309,7 @@ const CHECKPOINTS = {
 				"Venkat Kapoor",
 				"Director of Mars Operations at NASA",
 				"<p>Hey there,</p><p>I got word that the coordinates you found ended up totally screwing over Control. You must've been way off. They, uh, lost communication with the Hab. They're gonna need a week or two to get it back.</p><p>I'm sorry, but I just can't tolerate that kind of mistake.</p><p style=\"color:#ff0000\">You're fired.</p>",
-				0,
+				-1,
 				[[false, "Try again?", () => location.reload()]]
 			);
 		}, 2000);
@@ -313,7 +319,49 @@ const CHECKPOINTS = {
 			clearInterval(interval);
 			interval = null;
 		}
+		setTimeout(() => {
+			addEmail(
+				"Rover calculations",
+				"Rob Bennet",
+				"mechanical design",
+				"<p>Hey,</p><p>Do you happen to have measurements for our rover? You probably don't, but I've been looking all over and I can't find anything.</p><p>I'm trying to get the area that encompasses the base of the rover.</p>",
+				1,
+				[
+					false,
+					["areapass", "areafail"],
+					["Area", (res) => Math.abs(parseFloat(res) - 358.64335845) < 0.001],
+				]
+			);
+		}, 2000);
+		setTimeout(() => {
+			addEmail(
+				"Rover model",
+				"James Choi",
+				"assembly engineer",
+				"<p>Greetings!</p><p>I might be going a little crazy. Can you help me double check our rover model?</p><p>The width is like 1003 metres when I open the model up and it's not making any sense to me!!</p><p>If the measurements make sense, send them over to Rob. He's the one who needs it for his calculations.</p>",
+				0,
+				[[false, "Open \"FP_2035 model\"", () => {
+					const win = document.getElementById("modelwindow");
+					win.style.zIndex = topZIndex++;
+					win.style.display = "grid";
+				}]]
+			);
+		}, 12000);
+	},
+	"areapass": () => {
 		console.log("yay");
+	},
+	"areafail": () => {
+		setTimeout(() => {
+			addEmail(
+				"Termination",
+				"Venkat Kapoor",
+				"Director of Mars Operations at NASA",
+				"<p>Hey there,</p><p>I got word that our new rover just got destroyed in an assembly accident. They found out that they had some incorrect measurements. It's going to be another week or two at least to get up and going again.</p><p>I'm sorry, but I just can't tolerate that kind of mistake.</p><p style=\"color:#ff0000\">You're fired.</p>",
+				-1,
+				[[false, "Try again?", () => location.reload()]]
+			);
+		}, 2000);
 	},
 };
 

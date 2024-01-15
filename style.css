@@ -212,27 +212,40 @@ input {
 	right: 0;
 }
 
-#map {
+img {
 	display: block;
 	width: 100%;
 	cursor: crosshair;
 }
 
-#mapcursorpos {
-	font-size: 75%;
+#mapcursorpos, #modelinfo {
 	color: #ffffff;
 	background-color: #000000;
+	pointer-events: none;
+}
+
+#mapcursorpos {
+	position: absolute;
 	padding: 0.5em;
 	margin: 0.5em;
-	position: absolute;
 	bottom: 0;
 	left: 0;
-	pointer-events: none;
+	font-size: 75%;
 }
 
 #mappin {
 	position: absolute;
 	pointer-events: none;
+}
+
+#modelwindow {
+	display: none;
+}
+
+#modelinfo {
+	width: 100%;
+	padding: 1em;
+	font-family: monospace;
 }
 
 #gameoverscreen {
