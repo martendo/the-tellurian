@@ -118,34 +118,46 @@ function openEmail(fromDetails, message, responseType, responses) {
 		// Button responses
 		for (const response of responses) {
 			const responseButton = document.createElement("button");
-			responseButton.textContent = response[0];
-			responseButton.addEventListener("click", response[1]);
+			responseButton.disabled = response[0];
+			responseButton.textContent = response[1];
+			if (!response[0]) {
+				responseButton.addEventListener("click", () => {
+					response[0] = true;
+					responseButton.disabled = true;
+					response[2]();
+				});
+			}
 			responseContainer.appendChild(responseButton);
 		}
 	} else {
 		// Input responses
 		const table = document.createElement("table");
 		const inputs = [];
-		for (let i = 1; i < responses.length; i++) {
+		for (let i = 2; i < responses.length; i++) {
 			const responseInput = document.createElement("input");
 			responseInput.placeholder = responses[i][0];
 			table.insertRow().insertCell().appendChild(responseInput);
 			inputs.push(responseInput);
 		}
 		const submitButton = document.createElement("button");
+		submitButton.disabled = responses[0];
 		submitButton.textContent = "Submit";
 		submitButton.className = "submitbutton";
-		submitButton.addEventListener("click", () => {
-			for (let i = 0; i < inputs.length; i++) {
-				if (!responses[i + 1][1](inputs[i].value)) {
-					// Fail
-					CHECKPOINTS[responses[0][1]]();
-					return;
+		if (!responses[0]) {
+			submitButton.addEventListener("click", () => {
+				responses[0] = true;
+				submitButton.disabled = true;
+				for (let i = 0; i < inputs.length; i++) {
+					if (!responses[i + 2][1](inputs[i].value)) {
+						// Fail
+						CHECKPOINTS[responses[1][1]]();
+						return;
+					}
 				}
-			}
-			// Pass
-			CHECKPOINTS[responses[0][0]]();
-		});
+				// Pass
+				CHECKPOINTS[responses[1][0]]();
+			});
+		}
 		const submitCell = table.insertRow().insertCell();
 		submitCell.colSpan = 2;
 		submitCell.appendChild(submitButton);
@@ -176,7 +188,7 @@ const CHECKPOINTS = {
 				"Director of Mars Operations at NASA",
 				"<p>Hello!</p><p>It is my pleasure to welcome you to the team. This of NASA's most ambitious projects ever. I'm sure you are very aware of our situation with our dear friend Mark Watney. It is our duty to ensure he makes it back to Earth safe and healthy. Being stranded on Mars alone is a serious matter and we are doing everything in our power to get him home.</p><p>Communication among the team will take place over email. Honestly, we don't have the time or energy to do it any other way. You can respond to us with the buttons and text boxes at the bottom of the emails that warrant a response.</p><p>Thank you for taking on this huge challenge. By the way, you might want to refill your cup of coffee.</p>",
 				0,
-				[["I got coffee!", () => CHECKPOINTS.pos1()]]
+				[[false, "I got coffee!", () => CHECKPOINTS.pos1()]]
 			);
 		}, 3000);
 	},
@@ -189,6 +201,7 @@ const CHECKPOINTS = {
 				"<p>Hi again.</p><p>Coffee's great. That fuel will be important. You simply can't work without that energy.</p><p>Emergency funding from Congress basically means we can pay you for all the overtime in the world. But don't overwork yourself. You'll need rest eventually. Once you've done enough for the day, clock out. Take a break. You'll need it.</p><p>Control wants the latest position of Watney. Do you have it?</p>",
 				1,
 				[
+					false,
 					["pos1pass", "pos1fail"],
 					["Latitude", (res) => Math.abs(parseFloat(res) - WATNEY_LAT_1) < 1],
 					["Longitude", (res) => Math.abs(parseFloat(res) - WATNEY_LONG_1) < 1],
@@ -207,7 +220,7 @@ const CHECKPOINTS = {
 				"Director of Mars Operations at NASA",
 				"<p>Hey there,</p><p>I got word that the coordinates you found ended up totally screwing over Control. You must've been way off. They, uh, lost communication with the Hab. They're gonna need a week or two to get it back.</p><p>I'm sorry, but I just can't tolerate that kind of mistake.</p><p style=\"color:#ff0000\">You're fired.</p>",
 				0,
-				[["Try again?", () => location.reload()]]
+				[[false, "Try again?", () => location.reload()]]
 			);
 		}, 2000);
 	},
