@@ -195,7 +195,7 @@ function openEmail(fromDetails, message, responseType, responses) {
 	}
 	const win = document.getElementById("messagewindow");
 	win.style.zIndex = topZIndex++;
-	win.style.display = "block";
+	win.style.display = "grid";
 }
 
 function addEmail(subject, from, fromDetails, message, responseType, responses) {

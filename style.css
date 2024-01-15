@@ -67,7 +67,7 @@ p {
 	grid-template-columns: auto;
 }
 
-.windowcontent {
+.windowtitle + div {
 	overflow: auto;
 	position: relative;
 }
