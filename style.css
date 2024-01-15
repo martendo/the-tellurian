@@ -8,6 +8,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	background-color: #105040;
 }
 
 p {
@@ -22,21 +23,31 @@ p {
 	right: 22px;
 }
 
-#energybar {
+#energybar, #energyfullbar {
 	position: absolute;
 	top: 32px;
 	left: 32px;
 	pointer-events: none;
 	z-index: 1;
-	padding: 1em 0;
-	background-color: #ff00ff;
-	overflow: visible;
-	border: 3px solid #b000b0;
 	border-radius: 8px;
+}
+
+#energybar {
+	padding: 1em 0;
+	overflow: visible;
+	background-color: #d05080;
+	border: 3px solid #904060;
 }
 
 #energybar > span {
 	margin: 1em;
+}
+
+#energyfullbar {
+	padding: 1em;
+	width: 50vw;
+	background-color: #d0b0c0;
+	border: 3px solid #d0b0c0;
 }
 
 #clock {
@@ -128,6 +139,7 @@ p {
 
 #emailtable td {
 	border: 1px solid #808080;
+	padding: 0.25em;
 }
 
 #emailtable td:last-child {
@@ -188,6 +200,7 @@ p {
 input {
 	font-family: inherit;
 	font-size: inherit;
+	padding: 0.25em;
 }
 
 #responsecontainer table {
@@ -228,7 +241,8 @@ input {
 	width: 100%;
 	height: 100%;
 	padding: 3em;
-	background-color: #ffffff;
+	background-color: #202020;
+	color: #ffffff;
 	text-align: center;
 	display: none;
 }
