@@ -45,13 +45,14 @@ html, body {
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
+	position: relative;
 }
 
 .window {
 	border: 1px solid #404040;
 	border-radius: 5px;
 	background-color: #ffffff;
-	position: relative;
+	position: absolute;
 	width: 400px;
 	min-height: 300px;
 	display: grid;
