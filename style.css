@@ -103,10 +103,16 @@ p {
 #emailtable {
 	border-collapse: collapse;
 	width: 100%;
+	user-select: none;
+	table-layout: fixed;
 }
 
 #emailtable td {
 	border: 1px solid #808080;
+}
+
+#emailtable td:last-child {
+	width: 4em;
 }
 
 #emailtable tr:hover {
